@@ -2,8 +2,12 @@ package cn.edu.bupt.qkdswitchercontroll.device;
 
 import android.R.integer;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.topeet.serialtest.Com;
 import com.topeet.serialtest.serial;
 
+import cn.edu.bupt.qkdswitchercontroll.activity.MainActivity;
 import cn.edu.bupt.qkdswitchercontroll.wssconstant.WSSCmd;
 
 public class WSSSetup {
@@ -15,9 +19,11 @@ public class WSSSetup {
 		public static final WSSSetup SINGLE=new WSSSetup();
 	}
 	public static WSSSetup getInstance() {
+
 		return WSSSetupSingle.SINGLE;
 	}
 	public  boolean checkWSS(serial com,int flag){
+
 		String recv=sendAndGetResponse(com, flag, WSSCmd.COMMEND_SN0);
 		if(recv==null){
 			try {
@@ -63,31 +69,50 @@ public class WSSSetup {
 			e.printStackTrace();
 		}
 		String res = readFromSerial(cmd, com,flag);
+
 		Log.i(TAG, "WSS返回信息为:"+res);
 		return res;
 	}
 	
 	private String readFromSerial(String cmd, serial com, int flag) {
-		int [] reader=com.Read(flag);
-		if(reader==null){
+		byte[] reader=new byte[3024];
+		int len=0;
+		if(flag==Com.WSS1) {
+			len= uartProxy.readData(USB2SerialProxy.PORT.A, reader);
+		}
+		if(flag==Com.WSS2)
+			len=uartProxy.readData(USB2SerialProxy.PORT.B,reader);
+//		int [] reader=com.Read(flag);
+		if(len==0){
 			try {
 				Thread.currentThread().sleep(100);
-				reader=com.Read(flag);
+//				reader=com.Read(flag);
+				if(flag==Com.WSS1)
+					len=uartProxy.readData(USB2SerialProxy.PORT.A,reader);
+				if(flag==Com.WSS2)
+					len=uartProxy.readData(USB2SerialProxy.PORT.B,reader);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return null;
+//			return null;
 		}
-		return new String(reader, 0, reader.length);
+		Log.i(TAG,"接收到数据长度："+len);
+		return new String(reader, 0, len);
 	}
-	public int WriteToSerial(serial com,int flag,String tx){
+
+	private final USB2SerialProxy uartProxy = MainActivity.getContext();
+	public int WriteToSerial(serial com,int flag,String tx) {
+		Log.i(TAG,uartProxy.hashCode()+"WSS Uart");
 		int[] text = new int[tx.length()];
-		System.out.println("tx len"+tx.length());
+		System.out.println("tx len" + tx.length());
 		for (int i = 0; i < tx.length(); i++) {
 			text[i] = tx.charAt(i);
 		}
-		return com.Write(text, tx.length(),flag);
-		
+		Log.i(TAG,uartProxy.hashCode()+"  "+"tx:"+tx);
+//		return com.Write(text, tx.length(),flag);
+		if (flag == Com.WSS1)
+			return uartProxy.sendMessage(USB2SerialProxy.PORT.A, tx.getBytes());
+		else
+			return uartProxy.sendMessage(USB2SerialProxy.PORT.B, tx.getBytes());
 	}
 }

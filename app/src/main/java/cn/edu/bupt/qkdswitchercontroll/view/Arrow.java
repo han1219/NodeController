@@ -24,15 +24,19 @@ public class Arrow {
 	public  float x=0;
 	public  float y=0;
 	public  Bitmap img;
-	
+
+	public  float initX;
+	public  float initY;
 	
 	public Arrow(float RightcenterX,float RightcenterY){
 		x =RightcenterX;
+		initX=RightcenterX;
 		y=RightcenterY;
+		initY=RightcenterY;
 	}
 	Bitmap resizedBitmap ;
-	int RectWidth=20;
-	int RectHight=20;
+	int RectWidth=30;
+	int RectHight=30;
 	public   void drawSelf(Canvas canvas,int flag){
 //		flag show quantum channel or classic channel
 		Paint paint=new Paint();
@@ -56,18 +60,18 @@ public class Arrow {
 			if (x < ViewConstant.getRitht_border()) {
 				this.x += ColorUsed.Speed;
 			} else {
-				this.x = ViewConstant.getLeft_border();
+				this.x = initX;
 			}
 		}
 		if (LineUsing.usingLine[1]/10 == 1&&flag==1) {  //control WSS1's the first line
 			if (x < MySurfaceView.Line2_kneepoint_x) {
 				x += ColorUsed.Speed;
-			} else if (x>MySurfaceView.Line2_kneepoint2_x+5&&x<MySurfaceView.Line2_kneepoint2_x){
+			} else if (x>MySurfaceView.Line2_kneepoint2_x&&x<MySurfaceView.Coupler_left){
 				x +=  ColorUsed.Speed;
 			}
-			else if (x>MySurfaceView.Line2_kneepoint2_x){
-				x=ViewConstant.getLeft_border();
-				y=MySurfaceView.Line2_kneepoint_y;//ViewConstant.screenHeight / ViewConstant.HEIGHT_DEV * 3;
+			else if (x>MySurfaceView.Coupler_left){
+				x=initX;
+				y=initY;//MySurfaceView.Line2_kneepoint_y;//ViewConstant.screenHeight / ViewConstant.HEIGHT_DEV * 3;
 			}
 			else{
 				
@@ -78,15 +82,15 @@ public class Arrow {
 				
 			}
 		}
-		if (LineUsing.usingLine[2]/10 == 1 &&flag==2) {  //control WSS1's the first line
+		if (LineUsing.usingLine[2]/10 == 1 &&flag==2) {  //control WSS2's the first line
 			if (x < MySurfaceView.Line3_kneepoint_x) {
 				x += ColorUsed.Speed;
-			}else if(x>MySurfaceView.Line3_kneepoint2_x+5 && x<ViewConstant.getRitht_border()) {
+			}else if(x>MySurfaceView.Line3_kneepoint2_x && x<MySurfaceView.Coupler_left) {
 				x+= ColorUsed.Speed;
 			}
-			else if(x>ViewConstant.getRitht_border()){
-				x = ViewConstant.getLeft_border();
-				y=MySurfaceView.Line3_kneepoint_y;
+			else if(x>MySurfaceView.Coupler_left){
+				x =initX;// ViewConstant.getLeft_border();
+				y= initY;//MySurfaceView.Line3_kneepoint_y;
 			}else{
 				double k = ((MySurfaceView.Line3_kneepoint2_y - MySurfaceView.Line3_kneepoint_y) / (MySurfaceView.Line3_kneepoint2_x - MySurfaceView.Line3_kneepoint_x));
 				y+=k*(Math.sqrt(Math.pow( ColorUsed.Speed,2)/(1+k*k)));
@@ -97,7 +101,7 @@ public class Arrow {
 			if (x < ViewConstant.getRitht_border()) {
 				x +=  ColorUsed.Speed;
 			} else {
-				x = ViewConstant.getLeft_border();
+				x =initX; //ViewConstant.getLeft_border();
 			}
 		}
     }  

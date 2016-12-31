@@ -142,6 +142,7 @@ public class USB2SerialProxy {
         mDevices.put(PORT.B, mFtd2xxMgr.openByIndex(mContext, 1));
         mDevices.put(PORT.C, mFtd2xxMgr.openByIndex(mContext, 2));
         mDevices.put(PORT.D, mFtd2xxMgr.openByIndex(mContext, 3));
+        Log.i(TAG,"PORT A "+mDevices.get(PORT.A));
         configSerialParam(PORT.A, BaudRate.bps_115200, DataBits.bits_8,
                 StopBits.bits_1, Parity.NONE, FlowControl.NONE);
         configSerialParam(PORT.B, BaudRate.bps_115200, DataBits.bits_8,
@@ -150,7 +151,7 @@ public class USB2SerialProxy {
                 StopBits.bits_1, Parity.NONE, FlowControl.NONE);
         configSerialParam(PORT.D, BaudRate.bps_115200, DataBits.bits_8,
                 StopBits.bits_1, Parity.NONE, FlowControl.NONE);
-        new UartReadThread(mDevices, readDataHandler).start();
+//        new UartReadThread(mDevices, readDataHandler).start();
 
     }
 
@@ -174,6 +175,14 @@ public class USB2SerialProxy {
 
     public int sendMessage(PORT port, byte[] data) {
         FT_Device ftDev = mDevices.get(port);
+        if(ftDev==null){
+
+            ftDev = mDevices.get(port);
+        }
+        if(ftDev==null){
+            Log.i(TAG,"打开"+port+"失败");
+            return -1;
+        }
         int msgLen = ftDev.write(data, data.length);
         Log.d(TAG, "Port." + port.name() + " Send " + msgLen + " bytes message!");
         return msgLen;
@@ -216,6 +225,19 @@ public class USB2SerialProxy {
 
     };
 
+
+    public  int readData(PORT port,byte[] data){
+        int available=0;
+        FT_Device ftDev;
+        ftDev=mDevices.get(port);
+        Log.i(TAG,ftDev.hashCode()+" ");
+        available=ftDev.getQueueStatus();
+        if(available>0){
+            ftDev.read(data,available);
+        }
+        Log.i(TAG,"available "+available);
+        return  available;
+    }
     private class UartReadThread extends Thread {
         final HashMap<PORT, FT_Device> device;
         FT_Device ftDev;
@@ -237,7 +259,7 @@ public class USB2SerialProxy {
                 }
 
                 for (PORT port:PORT.values()) {
-                    ftDev = device.get(port);
+                    ftDev = mDevices.get(port);
                     available = ftDev.getQueueStatus();
                     if (available > 0) {
                         bytesBuf = new byte[available];

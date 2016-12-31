@@ -40,8 +40,8 @@ public class ViewConstant {
 ////		Line3_kneepoint2_y=screenHeight/HEIGHT_DEV*3;
 //	}
 //	public static int  screenHeight;
-	public static int WIDTH_DEV=20;
-	public static int HEIGHT_DEV=10;
+	public static int WIDTH_DEV=18;
+	public static int HEIGHT_DEV=20;
 	
 	/*
 	 * 以下顺序及定义不可变
@@ -59,18 +59,18 @@ public class ViewConstant {
 	
 	
 	
-	public static int ritht_border=0;  // WSS右边界
-	public  static int left_border=0;   // 耦合器左边界
-	public static int getRitht_border() {
+	public static float ritht_border=0;  // WSS右边界
+	public  static float left_border=0;   // 耦合器左边界
+	public static float getRitht_border() {
 		return ritht_border;
 	}
-	public static void setRitht_border(int ritht_border) {
+	public static void setRitht_border(float ritht_border) {
 		ViewConstant.ritht_border = ritht_border;
 	}
-	public static int getLeft_border() {
+	public static float getLeft_border() {
 		return left_border;
 	}
-	public static void setLeft_border(int left_border) {
+	public static void setLeft_border(float left_border) {
 		ViewConstant.left_border = left_border;
 	}
 	

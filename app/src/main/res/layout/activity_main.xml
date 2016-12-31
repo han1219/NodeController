@@ -11,49 +11,90 @@
         android:id="@+id/surface"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"/>
+        android:layout_weight="5"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:weightSum="10"
-        android:background="@drawable/images">
+        android:background="@drawable/background"
+        >
 
-        <Button
-            android:text="@string/WSS_RES"
-            android:id="@+id/btnRes"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:paddingBottom="40dp"
-            android:paddingTop="20dp"
-            android:layout_marginRight="20dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:id="@+id/port_select"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:entries="@array/port_select"/>
-        <EditText
-            android:id="@+id/uart_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="5"
-            android:background="#555555"/>
-        <Button
-            android:id="@+id/send_uart_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_height="150dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            >
 
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:background="@android:color/darker_gray"
+
+                android:layout_height="wrap_content"
+                android:hint="information"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:maxEms="10"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/tv_info"
+                android:textColor="#000"
+                android:maxLines="5"
+                />
+            <Button
+                android:text="@string/WSS_RES"
+                android:textSize="20dp"
+                android:id="@+id/btnRes"
+                android:maxLength="20"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                />
+        </LinearLayout>
+
+        <!--<Spinner-->
+            <!--android:id="@+id/port_select"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:gravity="center"-->
+            <!--android:entries="@array/port_select"/>-->
+        <!--<EditText-->
+            <!--android:id="@+id/uart_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:layout_weight="5"-->
+            <!--android:background="#555555"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/send_uart_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"/>-->
+
+        <ListView
+            android:layout_weight="3"
+            android:id="@+id/info_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@color/color_dark_grey"
+            android:dividerHeight="1dip"
+            android:fastScrollEnabled="true"
+            android:scrollingCache="true"
+            />
     </LinearLayout>
 
 </LinearLayout>
